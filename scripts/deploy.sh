@@ -16,10 +16,11 @@ LSSVMPairEnumerableERC20Addr=$(deploy LSSVMPairEnumerableERC20)
 log "LSSVMPairEnumerableERC20 deployed at:" $LSSVMPairEnumerableERC20Addr
 
 LSSVMPairMissingEnumerableERC20Addr=$(deploy LSSVMPairMissingEnumerableERC20)
-log "LSSVMPairMissingEnumerableERC20 deployed at:" $LSSVMPairMissingEnumerableERC20Addr
+log "LSSVMPairMissingEnumerableERC20 deployed at:"$LSSVMPairMissingEnumerableERC20Addr
 
 # Deploy factory
-LSSVMPairFactoryAddr=$(deploy LSSVMPairFactory $LSSVMPairEnumerableETHAddr $LSSVMPairMissingEnumerableETHAddr $LSSVMPairEnumerableERC20Addr $LSSVMPairMissingEnumerableERC20Addr $PROTOCOL_FEE_RECIPIENT $PROTOCOL_FEE_MULTIPLIER)
+#forge create --unlocked LSSVMPairFactory --constructor-args $LSSVMPairEnumerableETHAddr $LSSVMPairMissingEnumerableETHAddr $LSSVMPairEnumerableERC20Addr $LSSVMPairMissingEnumerableERC20Addr $PROTOCOL_FEE_RECIPIENT $PROTOCOL_FEE_MULTIPLIER
+LSSVMPairFactoryAddr=$(deploy LSSVMPairFactory "$LSSVMPairEnumerableETHAddr" $LSSVMPairMissingEnumerableETHAddr $LSSVMPairEnumerableERC20Addr $LSSVMPairMissingEnumerableERC20Addr $PROTOCOL_FEE_RECIPIENT $PROTOCOL_FEE_MULTIPLIER)
 log "LSSVMPairFactory deployed at:" $LSSVMPairFactoryAddr
 
 # Deploy router

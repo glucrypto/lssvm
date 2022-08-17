@@ -78,14 +78,31 @@ deploy() {
 
 	# deploy
 	#ADDRESS=$(dapp create "$NAME" $ARGS -- --gas "$GAS" --rpc-url "$ETH_RPC_URL")
-	ADDRESS=$(forge create --unlocked "$NAME" $ARGS)
 
+	#log "$ARGS"
+	if [[ -z "$ARGS" ]]; then	
+		ADDRESS=$(forge create --unlocked "$NAME" )
+	else
+		ADDRESS=$(forge create --unlocked "$NAME" --constructor-args $ARGS )
+		#echo "$ADDRESS"
+	fi
 	# save the addrs to the json
 	# TODO: It'd be nice if we could evolve this into a minimal versioning system
 	# e.g. via commit / chainid etc.
-	saveContract "$NAME" "$ADDRESS"
+	ADDRESSOUT=$ADDRESS
+	if [[ "$ADDRESS" == *"No"* ]]; then
+		asub="${ADDRESS:104:42}"
+		ADDRESSOUT=$asub
+		#saveContract "$NAME" "$ADDRESS"
+		#echo "$ADDRESS"
+	fi
+	
+		saveContract "$NAME" "$ADDRESSOUT"
+		#echo "$asub"
+		echo $ADDRESSOUT
 
-	echo "$ADDRESS"
+
+	
 }
 
 send() {
@@ -104,11 +121,19 @@ send() {
 # & address to the addresses json file
 saveContract() {
 	# create an empty json if it does not exist
-	if [[ ! -e $ADDRESSES_FILE ]]; then
-		echo "{}" >"$ADDRESSES_FILE"
-	fi
+	# if [[ ! -e $ADDRESSES_FILE ]]; then
+	# 	echo "{}" >"$ADDRESSES_FILE"
+	# fi
+	# if first two letters are no then only save address
+	#if [[ "$2" != *"No"* ]]; then
 	result=$(cat "$ADDRESSES_FILE" | jq -r ". + {\"$1\": \"$2\"}")
 	printf %s "$result" >"$ADDRESSES_FILE"
+	#else
+	# 	asub="${2:104:42}"
+	# 	echo "$asub"
+	# 	result2=$(cat "$ADDRESSES_FILE" | jq -r ". + {\"$1\": \"$asub\"}")
+	# 	printf %s "$result2" >"$ADDRESSES_FILE"
+	# fi
 }
 
 estimate_gas() {
