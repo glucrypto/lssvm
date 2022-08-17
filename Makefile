@@ -16,7 +16,7 @@ SOLC_VERSION := 0_8_13
 solc:; nix-env -f https://github.com/dapphub/dapptools/archive/master.tar.gz -iA solc-static-versions.solc_0_8_13
 
 # Build & test
-build  :; forge build --optimize --build-info --build-info-path out/dapp.sol.json
+build  :; forge build --optimize
 
 test   :; forge test --optimize
 fuzz   :; forge test -v --optimize 
