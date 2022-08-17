@@ -28,7 +28,7 @@ LSSVMRouterAddr=$(deploy LSSVMRouter $LSSVMPairFactoryAddr)
 log "LSSVMRouter deployed at:" $LSSVMRouterAddr
 
 # Whitelist router in factory
-send $LSSVMPairFactoryAddr "setRouterAllowed(address,bool)" $LSSVMRouterAddr true
+cast send $LSSVMPairFactoryAddr "setRouterAllowed(address,bool)" $LSSVMRouterAddr true
 log "Whitelisted router in factory"
 
 # Deploy bonding curves
@@ -39,11 +39,11 @@ LinearCurveAddr=$(deploy LinearCurve)
 log "LinearCurve deployed at:" $LinearCurveAddr
 
 # Whitelist bonding curves in factory
-send $LSSVMPairFactoryAddr "setBondingCurveAllowed(address,bool)" $ExponentialCurveAddr true
+cast send $LSSVMPairFactoryAddr "setBondingCurveAllowed(address,bool)" $ExponentialCurveAddr true
 log "Whitelisted exponential curve in factory"
-send $LSSVMPairFactoryAddr "setBondingCurveAllowed(address,bool)" $LinearCurveAddr true
+cast send $LSSVMPairFactoryAddr "setBondingCurveAllowed(address,bool)" $LinearCurveAddr true
 log "Whitelisted linear curve in factory"
 
 # Transfer factory ownership to admin
-send $LSSVMPairFactoryAddr "transferOwnership(address)" $ADMIN
+cast send $LSSVMPairFactoryAddr "transferOwnership(address)" $ADMIN
 log "Transferred factory ownership to:" $ADMIN
