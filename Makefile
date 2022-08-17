@@ -2,10 +2,10 @@
 # (-include to ignore error if it does not exist)
 -include .env
 
-install: update npm solc
+install: npm solc#update npm solc
 
 # deps
-update:; forge update
+#update:; forge update
 
 # npm deps for linting etc.
 npm:; yarn install
@@ -13,10 +13,11 @@ npm:; yarn install
 # install solc version
 # example to install other versions: `make solc 0_8_2`
 SOLC_VERSION := 0_8_13
-solc:; nix-env -f https://github.com/dapphub/dapptools/archive/master.tar.gz -iA solc-static-versions.solc_${SOLC_VERSION}
+solc:; nix-env -f https://github.com/dapphub/dapptools/archive/master.tar.gz -iA solc-static-versions.solc_0_8_13
 
 # Build & test
-build  :; forge build --optimize 
+build  :; forge build --optimize --build-info --build-info-path out/dapp.sol.json
+
 test   :; forge test --optimize
 fuzz   :; forge test -v --optimize 
 clean  :; forge clean

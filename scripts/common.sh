@@ -60,24 +60,25 @@ deploy() {
 	ARGS=${@:2}
 
 	# find file path
-	CONTRACT_PATH=$(find . -name $NAME.sol)
-	CONTRACT_PATH=${CONTRACT_PATH:2}
+	#CONTRACT_PATH=$(find . -name $NAME.sol)
+	#CONTRACT_PATH=${CONTRACT_PATH:2}
 
 	# select the filename and the contract in it
-	PATTERN=".contracts[\"$CONTRACT_PATH\"].$NAME"
+	#PATTERN=".contracts[\"$CONTRACT_PATH\"].$NAME"
 
 	# get the constructor's signature
-	ABI=$(jq -r "$PATTERN.abi" out/dapp.sol.json)
-	SIG=$(echo "$ABI" | seth --abi-constructor)
+	#ABI=$(jq -r "$PATTERN.abi" out/dapp.sol.json)
+	#SIG=$(echo "$ABI" | seth --abi-constructor)
 
 	# get the bytecode from the compiled file
-	BYTECODE=0x$(jq -r "$PATTERN.evm.bytecode.object" out/dapp.sol.json)
+	#BYTECODE=0x$(jq -r "$PATTERN.evm.bytecode.object" out/dapp.sol.json)
 
 	# estimate gas
-	GAS=$(seth estimate --create "$BYTECODE" "$SIG" $ARGS --rpc-url "$ETH_RPC_URL")
+	#GAS=$(seth estimate --create "$BYTECODE" "$SIG" $ARGS --rpc-url "$ETH_RPC_URL")
 
 	# deploy
-	ADDRESS=$(dapp create "$NAME" $ARGS -- --gas "$GAS" --rpc-url "$ETH_RPC_URL")
+	#ADDRESS=$(dapp create "$NAME" $ARGS -- --gas "$GAS" --rpc-url "$ETH_RPC_URL")
+	ADDRESS=$(forge create --unlocked "$NAME" $ARGS)
 
 	# save the addrs to the json
 	# TODO: It'd be nice if we could evolve this into a minimal versioning system

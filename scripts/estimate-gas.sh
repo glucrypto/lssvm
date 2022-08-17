@@ -13,4 +13,4 @@ if [[ -z $contract ]]; then
   fi
 fi
 
-estimate_gas $contract
+#estimate_gas $contract
